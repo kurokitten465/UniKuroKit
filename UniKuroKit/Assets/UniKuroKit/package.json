@@ -1,0 +1,23 @@
+{
+    "name": "com.kurokitten.unikurokit",
+    "description": "A utility framework for Unity by Kuro_kitten",
+    "license": "MIT",
+    "version": "1.0.0",
+    "unity": "2020.3",
+    "dependencies": { },
+    "keywords": [
+        "unity",
+        "kuro_kitten",
+        "utility",
+        "framework"
+    ],
+    "author": {
+        "name": "Kuro_kitten",
+        "email": "kuro.kitten465@gmail.com"
+    },
+    "samples": {
+        "displayName": "UniKuroKit Samples",
+        "description": "Sample projects for UniKuroKit framework by Kuro_kitten",
+        "path": "Samples~/"
+    }
+}
