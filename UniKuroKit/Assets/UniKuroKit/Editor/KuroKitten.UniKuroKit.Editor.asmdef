@@ -1,17 +1,9 @@
 {
-    "name": "com.kurokitten.unikurokit",
-    "rootNamespace": "Kuro.UniKit",
+    "name": "KuroKitten.UniKuroKit.Editor",
+    "rootNamespace": "KuroKitten.UniKuroKit.Editor",
     "references": [],
     "includePlatforms": [
-        "Android",
-        "Editor",
-        "EmbeddedLinux",
-        "LinuxStandalone64",
-        "CloudRendering",
-        "WSA",
-        "WebGL",
-        "WindowsStandalone32",
-        "WindowsStandalone64"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

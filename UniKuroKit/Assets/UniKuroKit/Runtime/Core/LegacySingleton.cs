@@ -1,6 +1,6 @@
 using System;
 
-namespace Kuro.UniKit.DesignPatterns
+namespace KuroKitten.UniKuroKit.Core
 {
     public abstract class LegacySingleton<T> : IDisposable where T : LegacySingleton<T>, new()
     {
@@ -8,10 +8,10 @@ namespace Kuro.UniKit.DesignPatterns
 
         private static readonly object _lock = new();
 
-        public static bool IsInitialize => _instance != null;
+        public static bool IsInitialize => !_disposed;
 
-        private static T _instance = default;
-        private bool _disposed = false;
+        private static T _instance = null;
+        private static bool _disposed = false;
 
         public static T Instance
         {
@@ -21,7 +21,7 @@ namespace Kuro.UniKit.DesignPatterns
 
                 lock (_lock)
                 {
-                    _instance = Activator.CreateInstance<T>();
+                    _instance = new();
                     return _instance;
                 }
             }
@@ -37,17 +37,16 @@ namespace Kuro.UniKit.DesignPatterns
         {
             if (_disposed) return;
 
-            if (disposing)
-            {
-                // Dispose managed resources here if needed
-            }
-
-            // Dispose unmanaged resources here if needed
-
-            _disposed = true;
-
             lock (_lock)
             {
+                if (disposing)
+                {
+                    // Dispose managed resources here if needed
+                }
+
+                // Dispose unmanaged resources here if needed
+
+                _disposed = true;
                 _instance = null;
             }
         }

@@ -1,34 +1,37 @@
 using UnityEngine;
 
-namespace Kuro.UniKit.DesignPatterns
+namespace KuroKitten.UniKuroKit.Core
 {
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
-        private static readonly object _lock = new();
+        public static bool IsInitialize => !_disposed;
 
-        public static bool IsInitialize => _instance != null; 
+        private static T _instance = null;
 
-        private static T _instance = default;
+        private static bool _disposed = false;
 
         public static T Instance
         {
             get
             {
-                if (IsInitialize) return _instance;
+                if (_instance != null)
+                    return _instance;
 
-                lock (_lock)
+                _instance = FindFirstObjectByType<T>();
+                if (_instance != null)
                 {
-                    _instance = FindFirstObjectByType<T>();
-                    if (IsInitialize)
-                        return _instance;
-
-                    var go = new GameObject($"{typeof(T).Name} Instance");
-                    _instance = go.AddComponent<T>();
+                    _disposed = false;
                     return _instance;
                 }
+
+                var go = new GameObject($"[{typeof(T).Name} Instance]");
+                _instance = go.AddComponent<T>();
+                _disposed = false;
+                return _instance;
             }
         }
 
+        [Header("Singleton")]
         [SerializeField] protected bool IsPersistent = true;
 
         protected virtual void Awake()
@@ -47,6 +50,9 @@ namespace Kuro.UniKit.DesignPatterns
 
         protected virtual void OnDestroy()
         {
+            if (_disposed) return;
+
+            _disposed = true;
             _instance = null;
         }
     }

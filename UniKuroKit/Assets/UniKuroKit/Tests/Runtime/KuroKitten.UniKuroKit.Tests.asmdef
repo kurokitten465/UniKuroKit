@@ -1,10 +1,8 @@
 {
-    "name": "com.kurokitten.unikuro.editor",
+    "name": "KuroKitten.UniKuroKit.Tests",
     "rootNamespace": "",
     "references": [],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

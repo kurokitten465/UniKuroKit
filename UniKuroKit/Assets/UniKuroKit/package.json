@@ -14,10 +14,5 @@
     "author": {
         "name": "Kuro_kitten",
         "email": "kuro.kitten465@gmail.com"
-    },
-    "samples": {
-        "displayName": "UniKuroKit Samples",
-        "description": "Sample projects for UniKuroKit framework by Kuro_kitten",
-        "path": "Samples~/"
     }
 }
