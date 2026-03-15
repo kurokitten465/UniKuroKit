@@ -1,18 +1,20 @@
+using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace KuroKitten.UniKuroKit.StateMachine
 {
-    public sealed class StateMachineSubsystem: IStateMachineSubsystem
+    public sealed class StateMachineSubsystem : IStateMachineSubsystem, IDisposable
     {
         private readonly List<IStateMachine> _machines = new();
 
+        public StateMachineSubsystem()
+        {
+            StateMachineScheduler.RegisterSubsystem(this);
+        }
+
         public bool Enabled { get; private set; } = true;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Disable() => Enabled = false;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Enable() => Enabled = true;
 
         public void Register(IStateMachine machine)
@@ -35,6 +37,9 @@ namespace KuroKitten.UniKuroKit.StateMachine
             {
                 var m = _machines[i];
 
+                if (m == null)
+                    continue;
+
                 if (m.Enabled)
                     m.Update();
             }
@@ -49,17 +54,38 @@ namespace KuroKitten.UniKuroKit.StateMachine
             {
                 var m = _machines[i];
 
+                if (m == null)
+                    continue;
+
                 if (m.Enabled)
                     m.FixedUpdate();
             }
         }
 
-        public void ProcessTransition()
+        bool _disposed = false;
+
+        void Dispose(bool disposing)
         {
-            for (int i = 0; i < _machines.Count; i++)
+            if (_disposed)
+                return;
+
+            if (disposing)
             {
-                _machines[i].ProcessTransition();
+                StateMachineScheduler.UnregisterSubsystem(this);
             }
+
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~StateMachineSubsystem()
+        {
+            Dispose(false);
         }
     }
 }

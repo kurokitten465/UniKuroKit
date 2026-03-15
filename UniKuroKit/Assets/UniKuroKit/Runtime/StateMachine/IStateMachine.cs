@@ -5,8 +5,7 @@ namespace KuroKitten.UniKuroKit.StateMachine
         bool Enabled { get; }
         void Enable();
         void Disable();
-        void ChangeState<TState>(TState state) where TState : new();
-        void ProcessTransition();
+        void ChangeState<TState>(TState state);
         void FixedUpdate();
         void Update();
     }

@@ -21,19 +21,23 @@ namespace KuroKitten.UniKuroKit.StateMachine
         public static void Update()
         {
             for (int i = 0; i < _subsystems.Count; i++)
-                _subsystems[i].Update();
+            {
+                if (_subsystems[i] == null)
+                    continue;
+                
+                _subsystems[i]?.Update();
+            }
         }
 
         public static void FixedUpdate()
         {
             for (int i = 0; i < _subsystems.Count; i++)
-                _subsystems[i].FixedUpdate();
-        }
+            {
+                if (_subsystems[i] == null)
+                    continue;
 
-        public static void ProcessTransition()
-        {
-            for (int i = 0; i < _subsystems.Count; i++)
-                _subsystems[i].ProcessTransition();
+                _subsystems[i]?.FixedUpdate();
+            }
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

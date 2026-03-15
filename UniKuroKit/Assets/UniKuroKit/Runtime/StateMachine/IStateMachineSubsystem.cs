@@ -7,7 +7,6 @@ namespace KuroKitten.UniKuroKit.StateMachine
         void Disable();
         void Register(IStateMachine machine);
         void Unregister(IStateMachine machine);
-        void ProcessTransition();
         void Update();
         void FixedUpdate();
     }

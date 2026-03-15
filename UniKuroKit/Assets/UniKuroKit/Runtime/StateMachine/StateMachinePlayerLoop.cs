@@ -8,14 +8,17 @@ namespace KuroKitten.UniKuroKit.StateMachine
 {
     public static class StateMachinePlayerLoop
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Install()
         {
             var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
 
-            Inject(ref playerLoop, typeof(EarlyUpdate), StateMachineScheduler.ProcessTransition);
             Inject(ref playerLoop, typeof(Update), StateMachineScheduler.Update);
             Inject(ref playerLoop, typeof(FixedUpdate), StateMachineScheduler.FixedUpdate);
+
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayerModeStateChanged;
+            #endif
 
             PlayerLoop.SetPlayerLoop(playerLoop);
         }
@@ -41,5 +44,14 @@ namespace KuroKitten.UniKuroKit.StateMachine
                 }
             }
         }
+
+        #if UNITY_EDITOR
+        private static void OnPlayerModeStateChanged(UnityEditor.PlayModeStateChange change)
+        {
+            if (change == UnityEditor.PlayModeStateChange.ExitingEditMode ||
+                change == UnityEditor.PlayModeStateChange.ExitingPlayMode)
+                PlayerLoop.SetPlayerLoop(PlayerLoop.GetDefaultPlayerLoop());
+        }
+        #endif
     }
 }

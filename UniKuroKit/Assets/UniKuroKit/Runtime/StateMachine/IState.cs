@@ -1,6 +1,6 @@
 namespace KuroKitten.UniKuroKit.StateMachine
 {
-    public interface IState<TContext> where TContext : struct
+    public interface IState<TContext> where TContext : IStateContext
     {
         void OnEnter(in TContext ctx);
         void OnUpdate(in TContext ctx);
